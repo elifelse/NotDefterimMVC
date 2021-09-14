@@ -15,7 +15,7 @@ namespace NotDefterim.Data
         public string Title { get; set; }
         public string Content { get; set; }
 
-        [ForeignKey("Author")]
+        [Required, ForeignKey("Author")]
         public string AuthorId { get; set; }
         public ApplicationUser Author { get; set; }
     }

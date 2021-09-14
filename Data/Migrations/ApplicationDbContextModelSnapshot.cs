@@ -230,6 +230,7 @@ namespace NotDefterim.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AuthorId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
@@ -302,7 +303,9 @@ namespace NotDefterim.Data.Migrations
                 {
                     b.HasOne("NotDefterim.Data.ApplicationUser", "Author")
                         .WithMany("Notes")
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
                 });
