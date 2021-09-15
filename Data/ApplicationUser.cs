@@ -11,6 +11,9 @@ namespace NotDefterim.Data
     {
         public DateTime RegisterationTime { get; set; } = DateTime.Now;
 
+        [MaxLength(255)]
+        public string Photo { get; set; }
+
         public List<Note> Notes { get; set; }
     }
 }
