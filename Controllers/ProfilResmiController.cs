@@ -59,6 +59,7 @@ namespace NotDefterim.Controllers
                     photo.CopyTo(fs);
                 }
                 ApplicationUser user = db.Users.Find(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                ResimDosyasiSil(user.Photo);
                 user.Photo = yeniDosyaAd;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { sonuc = "yuklendi" });
@@ -70,6 +71,29 @@ namespace NotDefterim.Controllers
             };
 
             return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult ResmiKaldir()
+        {
+            ApplicationUser user = db.Users.Find(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            ResimDosyasiSil(user.Photo);
+            user.Photo = null;
+            db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private void ResimDosyasiSil(string dosyaAd)
+        {
+            if (!string.IsNullOrEmpty(dosyaAd))
+            {
+                var photoPath = Path.Combine(env.WebRootPath, "uploads", dosyaAd);
+                if (System.IO.File.Exists(photoPath))
+                {
+                    System.IO.File.Delete(photoPath);
+                }
+            }
         }
     }
 }
